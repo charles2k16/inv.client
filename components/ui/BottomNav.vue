@@ -8,7 +8,7 @@
         v-for="item in items"
         :key="item.to"
         :to="item.to"
-        class="flex flex-1 flex-col items-center gap-1 py-2.5 text-[10.5px] font-medium"
+        class="flex flex-1 flex-col items-center gap-1 py-2.5 text-[10.5px] font-bold"
         :class="isActive(item.to) ? 'text-forest' : 'text-ink/45'"
       >
         <component :is="item.icon" class="h-5 w-5" />

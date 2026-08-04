@@ -35,7 +35,7 @@
 
       <section class="mt-7">
         <div class="flex items-center justify-between">
-          <p class="eyebrow">Recent transactions</p>
+          <p class="eyebrow font-medium">Recent transactions</p>
           <NuxtLink to="/wallet" class="text-xs text-forest">See all</NuxtLink>
         </div>
         <div class="mt-2 divide-y divide-ink/8">
@@ -46,7 +46,7 @@
 
       <section class="mt-7">
         <div class="flex items-center justify-between">
-          <p class="eyebrow">Active investments</p>
+          <p class="eyebrow font-medium">Active investments</p>
           <NuxtLink to="/investments" class="text-xs text-forest">See all</NuxtLink>
         </div>
         <div class="mt-2 space-y-2.5">
