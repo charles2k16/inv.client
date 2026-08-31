@@ -28,6 +28,12 @@ export default defineNuxtConfig({
     },
   },
 
+  // Static export for Hostinger (and similar) file hosting.
+  // Build: npm run generate  →  deploy apps/investor/.output/public/
+  nitro: {
+    preset: 'static',
+  },
+
   // Hybrid rendering, exactly as designed in Phase 2 ADR-002: pre-auth
   // routes are server-rendered for a fast first paint; everything past
   // auth is client-only — the dashboard has no SEO value, and

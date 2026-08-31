@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     setSession(user: CurrentUser, accessToken: string, refreshToken: string) {
       this.user = user;
-      const accessCookie = useCookie('ferrow_access_token', { maxAge: 60 * 15, sameSite: 'lax' });
+      const accessCookie = useCookie('ferrow_access_token', { maxAge: 60 * 60 * 24 * 2, sameSite: 'lax' });
       const refreshCookie = useCookie('ferrow_refresh_token', { maxAge: 60 * 60 * 24 * 30, sameSite: 'lax' });
       accessCookie.value = accessToken;
       refreshCookie.value = refreshToken;
