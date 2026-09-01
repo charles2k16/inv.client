@@ -27,17 +27,12 @@ jobs:
         with:
           node-version: 22
 
-      # Fresh install on Linux so Nuxt's oxc native bindings match the runner.
-      # Mac-generated lockfiles often skip linux optional deps (npm/cli#4828).
+      # Mac-generated lockfiles omit Linux optional native bindings
+      # (oxc, rolldown, etc. — npm/cli#4828). Rebuild deps on the runner.
       - name: Install dependencies
         run: |
-          rm -rf node_modules
-          npm install --no-fund --no-audit --include=optional
-          npm install \
-            @oxc-parser/binding-linux-x64-gnu \
-            @oxc-transform/binding-linux-x64-gnu \
-            @oxc-minify/binding-linux-x64-gnu \
-            --no-save --no-fund --no-audit
+          rm -rf node_modules package-lock.json
+          npm install --no-fund --no-audit
 
       - name: Generate static site
         run: npm run generate
