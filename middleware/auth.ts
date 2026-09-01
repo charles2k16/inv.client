@@ -6,9 +6,17 @@
 // (plugins/apollo.ts), which redirects to /login on the resulting
 // UNAUTHENTICATED error. This two-layer approach avoids duplicating JWT
 // verification logic in the frontend.
-export default defineNuxtRouteMiddleware(() => {
+export default defineNuxtRouteMiddleware((to) => {
   const token = useCookie('ferrow_access_token');
   if (!token.value) {
     return navigateTo('/login');
+  }
+
+  const hasPin = useCookie('ferrow_has_pin').value === '1';
+  if (!hasPin && to.path !== '/setup-pin') {
+    return navigateTo('/setup-pin');
+  }
+  if (hasPin && to.path === '/setup-pin') {
+    return navigateTo('/dashboard');
   }
 });

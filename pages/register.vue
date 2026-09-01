@@ -35,7 +35,6 @@
 <script setup lang="ts">
 import { useMutation } from '@vue/apollo-composable';
 import { REGISTER } from '~/graphql/auth';
-// import { REQUEST_OTP } from '~/graphql/auth';
 
 definePageMeta({ layout: 'auth', middleware: 'guest' });
 
@@ -51,7 +50,6 @@ const formError = ref('');
 const loading = ref(false);
 
 const { mutate: register } = useMutation(REGISTER);
-// const { mutate: requestOtp } = useMutation(REQUEST_OTP);
 
 function fieldError(field: string) {
   return errors.value.find((e) => e.field === field)?.message;
@@ -78,10 +76,8 @@ async function submit() {
       formError.value = errors.value.find((e) => !e.field)?.message ?? 'Could not create your account.';
       return;
     }
-    // OTP layer disabled — skip mobile verification after signup.
-    // await requestOtp({ mobileNumber: mobileNumber.value, purpose: 'MOBILE_VERIFICATION' });
-    // await navigateTo(`/verify-otp?mobileNumber=${encodeURIComponent(mobileNumber.value)}`);
-    await navigateTo('/login');
+    // After signup: log in with password once to create a 6-digit PIN (no SMS).
+    await navigateTo('/login?setup=1');
   } catch (err) {
     formError.value = 'Something went wrong. Please check your connection and try again.';
   } finally {

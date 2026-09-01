@@ -42,7 +42,8 @@ export default defineNuxtConfig({
   routeRules: {
     '/login': { ssr: true },
     '/register': { ssr: true },
-    // '/verify-otp': { ssr: true }, // OTP layer disabled after signup
+    '/setup-pin': { ssr: true },
+    '/forgot-pin': { ssr: true },
     '/forgot-password': { ssr: true },
     '/reset-password': { ssr: true },
     '/dashboard': { ssr: false },
