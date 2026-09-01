@@ -29,10 +29,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
+      # npm ci can skip optional native bindings when the lockfile was
+      # generated on macOS (npm/cli#4828 → missing @oxc-parser/binding-linux-*).
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm install --no-fund --no-audit
+          npm install @oxc-parser/binding-linux-x64-gnu --no-save --no-fund --no-audit
 
       - name: Generate static site
         run: npm run generate
