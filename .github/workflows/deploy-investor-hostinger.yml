@@ -27,10 +27,11 @@ jobs:
         with:
           node-version: 22
 
-      # Mac-generated lockfiles omit Linux optional native bindings
-      # (oxc, rolldown, etc. — npm/cli#4828). Rebuild deps on the runner.
+      # npm 10 hits "edgesOut" null crashes and skips Linux optional
+      # native bindings (oxc/rolldown) when the lockfile came from macOS.
       - name: Install dependencies
         run: |
+          npm install -g npm@11.5.2
           rm -rf node_modules package-lock.json
           npm install --no-fund --no-audit
 
