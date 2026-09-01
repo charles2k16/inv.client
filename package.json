@@ -21,5 +21,9 @@
   "devDependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/tailwindcss": "^6.12.0"
+  },
+  "supportedArchitectures": {
+    "os": ["darwin", "linux"],
+    "cpu": ["arm64", "x64"]
   }
 }

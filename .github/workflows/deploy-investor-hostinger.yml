@@ -1,13 +1,10 @@
 # Deploy investor static site to Hostinger via FTP.
 # Target: https://ferrow.fraudaidnetwork.com
 #
-# Repo: this file must live in the investor GitHub repo (inv.client), at:
-#   .github/workflows/deploy-investor-hostinger.yml
-#
 # Required GitHub Actions secrets (repo Settings → Secrets → Actions):
-#   HOSTINGER_FTP_SERVER    — 92.113.24.94
-#   HOSTINGER_FTP_USERNAME  — u869158881.ferrow.fraudaidnetwork.com
-#   HOSTINGER_FTP_PASSWORD  — from hPanel "Change FTP password"
+#   HOSTINGER_FTP_SERVER
+#   HOSTINGER_FTP_USERNAME
+#   HOSTINGER_FTP_PASSWORD
 #   NUXT_PUBLIC_API_URL     — https://YOUR-RENDER-SERVICE.onrender.com/graphql
 
 name: Deploy investor app (static) to Hostinger
@@ -30,12 +27,17 @@ jobs:
         with:
           node-version: 22
 
-      # npm ci can skip optional native bindings when the lockfile was
-      # generated on macOS (npm/cli#4828 → missing @oxc-parser/binding-linux-*).
+      # Fresh install on Linux so Nuxt's oxc native bindings match the runner.
+      # Mac-generated lockfiles often skip linux optional deps (npm/cli#4828).
       - name: Install dependencies
         run: |
-          npm install --no-fund --no-audit
-          npm install @oxc-parser/binding-linux-x64-gnu --no-save --no-fund --no-audit
+          rm -rf node_modules
+          npm install --no-fund --no-audit --include=optional
+          npm install \
+            @oxc-parser/binding-linux-x64-gnu \
+            @oxc-transform/binding-linux-x64-gnu \
+            @oxc-minify/binding-linux-x64-gnu \
+            --no-save --no-fund --no-audit
 
       - name: Generate static site
         run: npm run generate
