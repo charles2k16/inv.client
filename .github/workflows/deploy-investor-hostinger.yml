@@ -1,55 +1,38 @@
-# Deploy investor static site to Hostinger via FTP.
-# Target: https://ferrow.fraudaidnetwork.com
+# Deploy pre-built static files to Hostinger via FTP.
+# Build locally first, then push `dist/`:
+#   NUXT_PUBLIC_API_URL=https://YOUR-API.onrender.com/graphql npm run export:static
+#   git add dist && git commit -m "Update static build" && git push
 #
-# Required GitHub Actions secrets (repo Settings → Secrets → Actions):
+# Required secrets:
 #   HOSTINGER_FTP_SERVER
 #   HOSTINGER_FTP_USERNAME
 #   HOSTINGER_FTP_PASSWORD
-#   NUXT_PUBLIC_API_URL     — https://YOUR-RENDER-SERVICE.onrender.com/graphql
 
 name: Deploy investor app (static) to Hostinger
 
 on:
   push:
     branches: [main]
+    paths:
+      - 'dist/**'
+      - '.github/workflows/deploy-investor-hostinger.yml'
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      # pnpm correctly installs Linux optional native bindings (oxc/rolldown).
-      # npm 10/11 keep crashing (edgesOut) or skipping those packages.
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Generate static site
-        run: pnpm run generate
-        env:
-          NUXT_PUBLIC_API_URL: ${{ secrets.NUXT_PUBLIC_API_URL }}
-
-      - name: Upload static files to Hostinger (FTP)
+      - name: Upload dist to Hostinger (FTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.HOSTINGER_FTP_SERVER }}
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
           port: 21
-          local-dir: .output/public/
+          local-dir: dist/
           server-dir: ./public_html/
           dangerous-clean-slate: false

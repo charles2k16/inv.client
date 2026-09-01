@@ -1,0 +1,1 @@
+import{W as e,v as t}from"./BuJ5b8ic.js";import{b as n}from"#entry";import{t as r}from"./CNs_Ozdc.js";var i=t({__name:`reset-password`,async setup(t){let i,a;return r({layout:`auth`}),[i,a]=e(()=>n(`/forgot-pin`)),await i,a(),()=>{}}});export{i as default};

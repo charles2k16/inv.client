@@ -1,0 +1,1 @@
+import{Ct as e,F as t,f as n,v as r}from"./BuJ5b8ic.js";var i=Object.assign(r({__name:`SkeletonBlock`,props:{className:{default:`h-4 w-full`}},setup(r){return(i,a)=>(t(),n(`div`,{class:e([`animate-pulse rounded-lg bg-ink/8`,r.className])},null,2))}}),{__name:`SkeletonBlock`});export{i as t};

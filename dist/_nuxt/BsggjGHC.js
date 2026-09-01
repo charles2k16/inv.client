@@ -1,0 +1,1 @@
+import{b as e,h as t,y as n}from"#entry";var r=n(()=>{if(!t(`ferrow_access_token`).value)return;let n=t(`ferrow_has_pin`).value===`1`;return e(n?`/dashboard`:`/setup-pin`)});export{r as default};
